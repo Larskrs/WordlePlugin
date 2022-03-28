@@ -1,5 +1,7 @@
 package net.larskrs.plugins.wordle;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class Config {
@@ -28,5 +30,12 @@ public class Config {
         Random r = new Random();
          String s =  main.getConfig().getStringList("words").get(r.nextInt(main.getConfig().getStringList("words").size()));
         return s;
+    }
+    public static boolean isAWord (String s) {
+        List<String> words = main.getConfig().getStringList("words");
+        for (int i = 0; i < words.size(); i++) {
+            words.set(i, words.get(i).toUpperCase(Locale.ROOT));
+        }
+        return words.contains(s);
     }
 }

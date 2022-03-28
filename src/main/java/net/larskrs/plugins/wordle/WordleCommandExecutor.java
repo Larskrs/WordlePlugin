@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class WordleCommandExecutor implements CommandExecutor {
 
@@ -25,6 +26,8 @@ public class WordleCommandExecutor implements CommandExecutor {
                 WordleManager.generateGame(((Player) sender).getPlayer());
         } if (args.length == 2 && args[0].equalsIgnoreCase("try")) {
             if (WordleManager.games.containsKey((Player) sender)) {
+                if (Config.isAWord(args[1].toUpperCase(Locale.ROOT))) {
+
                 List<WLetter> Wreturns = WordleManager.games.get((Player) sender).checkWord(args[1]);
 
                 StringBuilder builder = new StringBuilder();
@@ -35,7 +38,10 @@ public class WordleCommandExecutor implements CommandExecutor {
                 }
 
                 sender.sendMessage(builder.toString());
-                sender.sendMessage(Wreturns.size() + "");
+
+                } else {
+                    sender.sendMessage(ChatColor.RED + "That is not a word!");
+                }
             }
         }
 

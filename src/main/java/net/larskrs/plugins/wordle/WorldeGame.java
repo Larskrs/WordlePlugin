@@ -2,6 +2,7 @@ package net.larskrs.plugins.wordle;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.units.qual.A;
 
@@ -27,7 +28,11 @@ public class WorldeGame {
 
             List<String> split = Arrays.asList(attempt.toUpperCase(Locale.ROOT).split("(?!^)"));
             List<String> splitAnswer = Arrays.asList(this.word.toUpperCase(Locale.ROOT).split("(?!^)"));
+
+
+
             for (int i = 0; i < splitAnswer.size(); i++) {
+
 
                 String letter = split.get(i).toUpperCase();
 
@@ -49,7 +54,7 @@ public class WorldeGame {
 
     }
     public void start () {
-        player.sendMessage("The game has begun, use the command /wordle try <word> to guess your way to victory.");
+        player.sendMessage(ChatColor.YELLOW + "The game has begun, use the command /wordle try <word> to guess your way to victory.");
     }
 
 }
