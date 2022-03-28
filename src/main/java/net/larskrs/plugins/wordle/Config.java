@@ -38,4 +38,13 @@ public class Config {
         }
         return words.contains(s);
     }
+    public static void addWord(String word) {
+        List<String> words = main.getConfig().getStringList("words");
+        words.add(word);
+        main.getConfig().set("words", words);
+
+        main.saveConfig();
+        main.reloadConfig();
+    }
+
 }

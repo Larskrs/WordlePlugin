@@ -3,6 +3,8 @@ package net.larskrs.plugins.wordle;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.units.qual.A;
 
@@ -12,9 +14,9 @@ public class WorldeGame {
 
     private ArrayList tries;
     private String word;
-    private Player player;
+    private UUID player;
 
-    public WorldeGame (Player p) {
+    public WorldeGame (UUID p) {
         tries = new ArrayList();
         word = Config.getRandomWord().toUpperCase();
         this.player = p;
@@ -48,13 +50,35 @@ public class WorldeGame {
                 }
             }
                 Bukkit.getConsoleSender().sendMessage("The word is "+ word);
+
+            int correct = 0;
+            for (WLetter wl: Wreturns
+                 ) {
+                if (wl.succes == WordleReturn.correct) {
+                    correct ++;
+                }
+            }
+            
+            if (correct == splitAnswer.size()) {
+                WordleManager.endGame(this.player, true);
+            }
+
             return Wreturns;
         }
 
 
     }
     public void start () {
-        player.sendMessage(ChatColor.YELLOW + "The game has begun, use the command /wordle try <word> to guess your way to victory.");
+        Objects.requireNonNull(Bukkit.getPlayer(player)).sendMessage(ChatColor.YELLOW + "The game has begun, use the command /wordle try <word> to guess your way to victory.");
+    }
+    public void end (boolean won) {
+        Objects.requireNonNull(Bukkit.getPlayer(player)).sendMessage(ChatColor.YELLOW + "The has ended. ");
+        if (won) {
+            Objects.requireNonNull(Bukkit.getPlayer(player)).sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + " YOU GOT IT! ");
+            Bukkit.getPlayer(player).getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ENTITY_PILLAGER_CELEBRATE, 2, 1);
+            Bukkit.getPlayer(player).getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
+            Bukkit.getPlayer(player).getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ENTITY_PARROT_AMBIENT, 1, 1);
+        }
     }
 
 }

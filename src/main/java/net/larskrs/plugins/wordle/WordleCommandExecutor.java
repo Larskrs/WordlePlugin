@@ -23,12 +23,16 @@ public class WordleCommandExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (args.length == 1 && args[0].equalsIgnoreCase("play")) {
-                WordleManager.generateGame(((Player) sender).getPlayer());
-        } if (args.length == 2 && args[0].equalsIgnoreCase("try")) {
-            if (WordleManager.games.containsKey((Player) sender)) {
+            WordleManager.generateGame(((Player) sender).getPlayer().getUniqueId());
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("addWord")) {
+                Config.addWord(args[1]);
+                sender.sendMessage(ChatColor.GREEN + " # You added the word + " + ChatColor.YELLOW + args[1]);
+
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("try")) {
+            if (WordleManager.isPlaying(((Player) sender).getUniqueId())) {
                 if (Config.isAWord(args[1].toUpperCase(Locale.ROOT))) {
 
-                List<WLetter> Wreturns = WordleManager.games.get((Player) sender).checkWord(args[1]);
+                List<WLetter> Wreturns = WordleManager.games.get(((Player) sender).getUniqueId()).checkWord(args[1]);
 
                 StringBuilder builder = new StringBuilder();
 
@@ -42,6 +46,12 @@ public class WordleCommandExecutor implements CommandExecutor {
                 } else {
                     sender.sendMessage(ChatColor.RED + "That is not a word!");
                 }
+            }
+        } if (args.length == 1 && args[0].equalsIgnoreCase("leave")) {
+            if (WordleManager.isPlaying(((Player) sender).getUniqueId())) {
+                WordleManager.endGame(((Player) sender).getUniqueId(), false);
+            } else {
+                sender.sendMessage(ChatColor.RED + " # You are not in a game.");
             }
         }
 

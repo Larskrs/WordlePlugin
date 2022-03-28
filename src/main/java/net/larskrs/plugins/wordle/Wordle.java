@@ -14,6 +14,8 @@ public final class Wordle extends JavaPlugin {
 
         getCommand("wordle").setExecutor(new WordleCommandExecutor(this));
 
+        Bukkit.getPluginManager().registerEvents(new InputListener(), this);
+
 
     }
 
