@@ -1,0 +1,9 @@
+name: Wordle
+version: '${project.version}'
+main: net.larskrs.plugins.wordle.Wordle
+api-version: 1.18
+authors: [ Larskrs ]
+description: Lets players play the popular worlde game in the their chat.
+commands:
+  wordle:
+    description: main command for the wordle plugin.
