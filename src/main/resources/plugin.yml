@@ -7,3 +7,7 @@ description: Lets players play the popular worlde game in the their chat.
 commands:
   wordle:
     description: main command for the wordle plugin.
+permissions:
+  wordle.command.addword:
+    description: allows player to add words to the database.
+    default: op

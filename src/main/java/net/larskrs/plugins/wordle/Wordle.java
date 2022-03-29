@@ -10,9 +10,12 @@ public final class Wordle extends JavaPlugin {
         // Plugin startup logic
 
         new Config(this);
+        LangManager.setupLangFile(this);
         new WordleManager(this);
 
-        getCommand("wordle").setExecutor(new WordleCommandExecutor(this));
+        WordleCommandExecutor wordleCommandExecutor = new WordleCommandExecutor(this);
+        getCommand("wordle").setExecutor(wordleCommandExecutor);
+        getCommand("wordle").setTabCompleter(wordleCommandExecutor);
 
         Bukkit.getPluginManager().registerEvents(new InputListener(), this);
 

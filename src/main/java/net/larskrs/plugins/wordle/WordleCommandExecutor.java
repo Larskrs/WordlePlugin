@@ -4,13 +4,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class WordleCommandExecutor implements CommandExecutor {
+public class WordleCommandExecutor implements CommandExecutor, TabCompleter {
 
     private Wordle main;
 
@@ -25,8 +26,10 @@ public class WordleCommandExecutor implements CommandExecutor {
         if (args.length == 1 && args[0].equalsIgnoreCase("play")) {
             WordleManager.generateGame(((Player) sender).getPlayer().getUniqueId());
         } else if (args.length == 2 && args[0].equalsIgnoreCase("addWord")) {
+                if (sender.hasPermission("wordle.command.addword")) {
                 Config.addWord(args[1]);
                 sender.sendMessage(ChatColor.GREEN + " # You added the word + " + ChatColor.YELLOW + args[1]);
+                }
 
         } else if (args.length == 2 && args[0].equalsIgnoreCase("try")) {
             if (WordleManager.isPlaying(((Player) sender).getUniqueId())) {
@@ -56,5 +59,22 @@ public class WordleCommandExecutor implements CommandExecutor {
         }
 
         return false;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String s, String[] strings) {
+
+        if (strings.length == 1) {
+
+            List<String> list = new ArrayList<>();
+            list.add("play");
+            list.add("leave");
+            list.add("try");
+            if (sender.hasPermission("wordle.command.addword")) {
+                list.add("addword");
+            }
+            return list;
+        }
+        return null;
     }
 }

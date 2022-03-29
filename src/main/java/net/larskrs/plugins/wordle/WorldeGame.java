@@ -1,5 +1,6 @@
 package net.larskrs.plugins.wordle;
 
+import net.larskrs.plugins.wordle.tools.MCTextUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -69,7 +70,8 @@ public class WorldeGame {
 
     }
     public void start () {
-        Objects.requireNonNull(Bukkit.getPlayer(player)).sendMessage(ChatColor.YELLOW + "The game has begun, use the command /wordle try <word> to guess your way to victory.");
+        Player p = Bukkit.getPlayer(player);
+        LangManager.sendMessage(p, LangManager.getMessageFromLocation("game-start"));
     }
     public void end (boolean won) {
         Objects.requireNonNull(Bukkit.getPlayer(player)).sendMessage(ChatColor.YELLOW + "The has ended. ");
@@ -78,6 +80,7 @@ public class WorldeGame {
             Bukkit.getPlayer(player).getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ENTITY_PILLAGER_CELEBRATE, 2, 1);
             Bukkit.getPlayer(player).getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
             Bukkit.getPlayer(player).getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ENTITY_PARROT_AMBIENT, 1, 1);
+            Bukkit.getPlayer(player).getWorld().spawnParticle(Particle.TOTEM, Bukkit.getPlayer(player).getLocation(), 300, 10);
         }
     }
 
