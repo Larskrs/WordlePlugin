@@ -1,5 +1,6 @@
 package net.larskrs.plugins.wordle;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.larskrs.plugins.wordle.objects.StringReplacement;
 import net.larskrs.plugins.wordle.tools.MCTextUtil;
 import org.apache.commons.lang.StringUtils;
@@ -28,27 +29,22 @@ public class LangManager {
         return lang.getStringList(location);
     }
     public static void sendMessage(Player p, List<String> m) {
-        for (int i = 0; i <m.size(); i++) {
-
+        for (String message : m) {
             String cen = "<Center>";
 
-            boolean isFound = m.get(i).contains(cen);
-
-
+            boolean isFound = message.contains(cen);
             if (isFound) {
-
-                String ne = StringUtils.remove(m.get(i), cen);
-                MCTextUtil.sendCenteredMessage(p, ChatColor.translateAlternateColorCodes('&', ne));
+                String ne = StringUtils.remove(message, cen);
+                MCTextUtil.sendCenteredMessage(p, ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(p, ne)));
             } else {
-                p.sendMessage(ChatColor.translateAlternateColorCodes('&', m.get(i)));
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(p, message)));
             }
         }
     }
     public static void sendMessage(List<Player> pl, List<String> m) {
         for (int p = 0; p < pl.size(); p++) {
-            for (int i = 0; i <m.size(); i++) {
-                pl.get(p).sendMessage(ChatColor.translateAlternateColorCodes('&', m.get(i)));
-            }
+                sendMessage(pl.get(p), m);
+
         }
     }
     public static String getReplacements (List<String> list){

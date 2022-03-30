@@ -1,37 +1,29 @@
 package net.larskrs.plugins.wordle;
 
-import net.larskrs.plugins.wordle.tools.MCTextUtil;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
 
 public class WorldeGame {
 
-    private ArrayList tries;
+    private int tries;
     private String word;
     private UUID player;
 
     public WorldeGame (UUID p) {
-        tries = new ArrayList();
+        tries = Config.getMaxWorldeTries();
         word = Config.getRandomWord().toUpperCase();
         this.player = p;
     }
 
     public List<WLetter> checkWord (String attempt) {
-        if (tries.size() >= Config.getMaxWorldeTries() + 1) {
-            return null;
-        } else {
+
             List<WLetter> Wreturns = new ArrayList<>();
 
             List<String> split = Arrays.asList(attempt.toUpperCase(Locale.ROOT).split("(?!^)"));
             List<String> splitAnswer = Arrays.asList(this.word.toUpperCase(Locale.ROOT).split("(?!^)"));
-
 
 
             for (int i = 0; i < splitAnswer.size(); i++) {
@@ -62,25 +54,30 @@ public class WorldeGame {
             
             if (correct == splitAnswer.size()) {
                 WordleManager.endGame(this.player, true);
+            } else if (tries == 0)  {
+                Bukkit.getConsoleSender().sendMessage("dude should be dead.");
+                WordleManager.endGame(this.player, false);
             }
-
+            tries -= 1;
             return Wreturns;
-        }
-
-
+    }
+    public String getWord () {
+        return word;
     }
     public void start () {
         Player p = Bukkit.getPlayer(player);
         LangManager.sendMessage(p, LangManager.getMessageFromLocation("game-start"));
     }
     public void end (boolean won) {
-        Objects.requireNonNull(Bukkit.getPlayer(player)).sendMessage(ChatColor.YELLOW + "The has ended. ");
+
         if (won) {
-            Objects.requireNonNull(Bukkit.getPlayer(player)).sendMessage(ChatColor.GREEN + ChatColor.BOLD.toString() + " YOU GOT IT! ");
+            LangManager.sendMessage(Bukkit.getPlayer(player), LangManager.getMessageFromLocation("game-end-win"));
             Bukkit.getPlayer(player).getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ENTITY_PILLAGER_CELEBRATE, 2, 1);
             Bukkit.getPlayer(player).getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
             Bukkit.getPlayer(player).getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ENTITY_PARROT_AMBIENT, 1, 1);
-            Bukkit.getPlayer(player).getWorld().spawnParticle(Particle.TOTEM, Bukkit.getPlayer(player).getLocation(), 300, 10);
+            //Bukkit.getPlayer(player).getWorld().spawnParticle(Particle.TOTEM, Bukkit.getPlayer(player).getLocation(), 300, 10);
+        } else {
+            LangManager.sendMessage(Bukkit.getPlayer(player), LangManager.getMessageFromLocation("game-end-loss"));
         }
     }
 

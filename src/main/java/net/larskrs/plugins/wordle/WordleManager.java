@@ -1,7 +1,10 @@
 package net.larskrs.plugins.wordle;
 
-import java.util.HashMap;
-import java.util.UUID;
+import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+
+import java.util.*;
 
 public class WordleManager {
 
@@ -27,5 +30,40 @@ public class WordleManager {
     public static void endGame(UUID uuid, boolean b) {
         getGame(uuid).end(b);
         games.remove(uuid);
+    }
+
+    public static String displayTextAsWordle(String s, WorldeGame game) {
+        List<WLetter> Wreturns = new ArrayList<>();
+
+        List<String> split = Arrays.asList(s.toUpperCase(Locale.ROOT).split("(?!^)"));
+        if (game != null) {
+        List<String> splitAnswer = Arrays.asList(Config.getRandomWord().toUpperCase(Locale.ROOT).split("(?!^)"));
+        }
+
+
+        for (int i = 0; i < splitAnswer.size(); i++) {
+
+
+            String letter = split.get(i).toUpperCase();
+
+            if (splitAnswer.contains(letter)) {
+                // the Letter is included.
+                if (splitAnswer.get(i).equalsIgnoreCase(letter))  {
+                    Wreturns.add(new WLetter(WordleReturn.correct, letter));
+                } else {
+                    Wreturns.add(new WLetter(WordleReturn.included, letter));
+                }
+            } else {
+                Wreturns.add(new WLetter(WordleReturn.wrong, letter));
+            }
+        }
+
+        StringBuilder builder = new StringBuilder();
+
+        for (WLetter w: Wreturns
+        ) {
+            builder.append(ChatColor.BOLD.toString() + ChatColor.DARK_GRAY + "[" + w.succes.color + w.letter + ChatColor.BOLD.toString() + ChatColor.DARK_GRAY + "] ");
+        }
+        return  builder.toString();
     }
 }

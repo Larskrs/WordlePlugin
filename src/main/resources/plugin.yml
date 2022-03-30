@@ -1,4 +1,4 @@
-name: Wordle
+name: wordlmc
 version: '${project.version}'
 main: net.larskrs.plugins.wordle.Wordle
 api-version: 1.18
@@ -11,3 +11,5 @@ permissions:
   wordle.command.addword:
     description: allows player to add words to the database.
     default: op
+
+softdepend: [PlaceholderAPI]

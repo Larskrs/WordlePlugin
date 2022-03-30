@@ -1,11 +1,17 @@
 game-start:
     - ""
-    - "<Center> &8[&e&lW&8][&a&lO&8]&8[&7&lR&8][&a&lD&8][&7&lL&8] &6&LMC"
+    - "<Center> %wordlmc_wordl_text_WORDL% &6&LMC"
     - ""
     - "&e #&7 Write a 5 letter word into the chat to begin!"
     - "&e #&7 If a letter is &e&lYellow &7it means it is "
     - "&e #&7 in the word, but not in the correct place."
     - "&e #&7 if it is gray, it is not in the word at all."
     - "&e #&7 And if it is &a&lGreen &7it is in the correct place."
-    - "&e #&7 You get 6 tries, so do not waste them."
+    - "&e #&7 You get %wordlmc_max_tries% tries, so do not waste them."
     - ""
+game-end-win:
+    - "&e #&7 You have finished the wordl with a &a&lWIN"
+    - "&e #&7 With the wordle of: &e&l%wordlmc_current_wordl%"
+game-end-loss:
+    - "&c #&7 You have lost the wordl. &c:("
+    - "&c #&7 The wordl was %wordlmc_current_wordl%"

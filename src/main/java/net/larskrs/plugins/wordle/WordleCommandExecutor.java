@@ -1,5 +1,6 @@
 package net.larskrs.plugins.wordle;
 
+import net.larskrs.plugins.wordle.tools.MCTextUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,16 +36,10 @@ public class WordleCommandExecutor implements CommandExecutor, TabCompleter {
             if (WordleManager.isPlaying(((Player) sender).getUniqueId())) {
                 if (Config.isAWord(args[1].toUpperCase(Locale.ROOT))) {
 
-                List<WLetter> Wreturns = WordleManager.games.get(((Player) sender).getUniqueId()).checkWord(args[1]);
+                String arg = args[1];
+                    String input = WordleManager.displayTextAsWordle(arg);
 
-                StringBuilder builder = new StringBuilder();
-
-                for (WLetter w: Wreturns
-                     ) {
-                    builder.append(ChatColor.BOLD.toString() + ChatColor.DARK_GRAY + "[" + w.succes.color + w.letter + ChatColor.BOLD.toString() + ChatColor.DARK_GRAY + "] ");
-                }
-
-                sender.sendMessage(builder.toString());
+                    MCTextUtil.sendCenteredMessage((Player) sender, ChatColor.translateAlternateColorCodes('&', input));
 
                 } else {
                     sender.sendMessage(ChatColor.RED + "That is not a word!");
