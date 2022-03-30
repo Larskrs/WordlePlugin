@@ -62,7 +62,7 @@ public class PlaceholderApiExtension extends PlaceholderExpansion {
 
             String output = args[2];
 
-            return WordleManager.displayTextAsWordle(output);
+            return WordleManager.displayTextAsWordle(output, null);
         }
 
         return null; // Placeholder is unknown by the Expansion

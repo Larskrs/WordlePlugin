@@ -16,8 +16,8 @@ public final class Wordle extends JavaPlugin {
         new WordleManager(this);
 
         WordleCommandExecutor wordleCommandExecutor = new WordleCommandExecutor(this);
-        getCommand("wordle").setExecutor(wordleCommandExecutor);
-        getCommand("wordle").setTabCompleter(wordleCommandExecutor);
+        getCommand("wordl").setExecutor(wordleCommandExecutor);
+        getCommand("wordl").setTabCompleter(wordleCommandExecutor);
 
         new PlaceholderApiExtension(this).register();
 

@@ -38,6 +38,9 @@ public class Config {
         }
         return words.contains(s);
     }
+    public static List<String> getRewardCommand() {
+        return main.getConfig().getStringList("game.settings.rewards");
+    }
     public static void addWord(String word) {
         List<String> words = main.getConfig().getStringList("words");
         words.add(word);

@@ -36,8 +36,11 @@ public class WordleManager {
         List<WLetter> Wreturns = new ArrayList<>();
 
         List<String> split = Arrays.asList(s.toUpperCase(Locale.ROOT).split("(?!^)"));
-        if (game != null) {
-        List<String> splitAnswer = Arrays.asList(Config.getRandomWord().toUpperCase(Locale.ROOT).split("(?!^)"));
+        List<String> splitAnswer;
+        if (game == null) {
+            splitAnswer = Arrays.asList(Config.getRandomWord().toUpperCase(Locale.ROOT).split("(?!^)"));
+        } else {
+            splitAnswer = Arrays.asList(game.getWord().toUpperCase(Locale.ROOT).split("(?!^)"));
         }
 
 

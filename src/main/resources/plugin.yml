@@ -5,11 +5,11 @@ api-version: 1.18
 authors: [ Larskrs ]
 description: Lets players play the popular worlde game in the their chat.
 commands:
-  wordle:
-    description: main command for the wordle plugin.
+  wordl:
+    description: main command for the wordlmc plugin.
 permissions:
-  wordle.command.addword:
+  wordlmc.command.addword:
     description: allows player to add words to the database.
     default: op
 
-softdepend: [PlaceholderAPI]
+depend: [PlaceholderAPI]

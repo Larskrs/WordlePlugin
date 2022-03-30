@@ -13,7 +13,7 @@ public class InputListener implements Listener {
     public void onChat (PlayerChatEvent e) {
         if (WordleManager.isPlaying(e.getPlayer().getUniqueId())) {
             e.setCancelled(true);
-            Bukkit.dispatchCommand(e.getPlayer(), "wordle try " + e.getMessage());
+            Bukkit.dispatchCommand(e.getPlayer(), "wordl try " + e.getMessage());
         }
     }
 

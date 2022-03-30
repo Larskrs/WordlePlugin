@@ -1,5 +1,6 @@
 package net.larskrs.plugins.wordle;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -51,7 +52,7 @@ public class WorldeGame {
                     correct ++;
                 }
             }
-            
+
             if (correct == splitAnswer.size()) {
                 WordleManager.endGame(this.player, true);
             } else if (tries == 0)  {
@@ -71,10 +72,23 @@ public class WorldeGame {
     public void end (boolean won) {
 
         if (won) {
-            LangManager.sendMessage(Bukkit.getPlayer(player), LangManager.getMessageFromLocation("game-end-win"));
-            Bukkit.getPlayer(player).getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ENTITY_PILLAGER_CELEBRATE, 2, 1);
-            Bukkit.getPlayer(player).getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
-            Bukkit.getPlayer(player).getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ENTITY_PARROT_AMBIENT, 1, 1);
+
+            Player p = Bukkit.getPlayer(player);
+
+            LangManager.sendMessage(p, LangManager.getMessageFromLocation("game-end-win"));
+            p.getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ENTITY_PILLAGER_CELEBRATE, 2, 1);
+            p.getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ITEM_TOTEM_USE, 1, 1);
+            p.getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ENTITY_PARROT_AMBIENT, 1, 1);
+            for (String rewardCMD: Config.getRewardCommand()
+                 ) {
+                if (rewardCMD.startsWith("CONSOLE: ")) {
+                    String plC = PlaceholderAPI.setPlaceholders(p, rewardCMD.replace("CONSOLE: ", ""));
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), plC);
+                } else if (rewardCMD.startsWith("PLAYER: ")) {
+                    String plC = PlaceholderAPI.setPlaceholders(p, rewardCMD.replace("PLAYER: ", ""));
+                p.performCommand(plC);
+                }
+            }
             //Bukkit.getPlayer(player).getWorld().spawnParticle(Particle.TOTEM, Bukkit.getPlayer(player).getLocation(), 300, 10);
         } else {
             LangManager.sendMessage(Bukkit.getPlayer(player), LangManager.getMessageFromLocation("game-end-loss"));
