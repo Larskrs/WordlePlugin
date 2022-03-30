@@ -3,8 +3,8 @@ game:
     rows: 6
     lenght: 5
     rewards:
-      - "CONSOLE: eco give %player_name% 150"
-      - "PLAYER: say dance"
+      - "CONSOLE: eco give %player% 150"
+      - "PLAYER: say dance %player%"
 words:
   - "aback"
   - "abase"

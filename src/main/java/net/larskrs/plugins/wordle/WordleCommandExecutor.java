@@ -40,8 +40,8 @@ public class WordleCommandExecutor implements CommandExecutor, TabCompleter {
                 String arg = args[1];
                 WorldeGame game = WordleManager.getGame(((Player) sender).getUniqueId());
                     String input = WordleManager.displayTextAsWordle(arg, game);
-                    game.checkWord(arg);
                     MCTextUtil.sendCenteredMessage((Player) sender, ChatColor.translateAlternateColorCodes('&', input));
+                    game.checkWord(arg);
 
                 } else {
                     ((Player) sender).sendTitle(ChatColor.RED + "That is not a word!", ChatColor.DARK_GRAY + "The word needs to be 5 letters long");

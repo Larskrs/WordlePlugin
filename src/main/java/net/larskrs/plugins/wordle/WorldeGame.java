@@ -1,17 +1,22 @@
 package net.larskrs.plugins.wordle;
 
+import jdk.internal.net.http.hpack.HPACK;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 import java.util.*;
+import java.util.logging.Level;
 
 public class WorldeGame {
 
     private int tries;
     private String word;
     private UUID player;
+    private Wordle main = Wordle.getInstance();
 
     public WorldeGame (UUID p) {
         tries = Config.getMaxWorldeTries();
@@ -81,12 +86,17 @@ public class WorldeGame {
             p.getWorld().playSound(Bukkit.getPlayer(player).getLocation(), Sound.ENTITY_PARROT_AMBIENT, 1, 1);
             for (String rewardCMD: Config.getRewardCommand()
                  ) {
+                rewardCMD = rewardCMD.replace("%player%", p.getName());
+
                 if (rewardCMD.startsWith("CONSOLE: ")) {
                     String plC = PlaceholderAPI.setPlaceholders(p, rewardCMD.replace("CONSOLE: ", ""));
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), plC);
                 } else if (rewardCMD.startsWith("PLAYER: ")) {
                     String plC = PlaceholderAPI.setPlaceholders(p, rewardCMD.replace("PLAYER: ", ""));
-                p.performCommand(plC);
+                    boolean wasOp = p.isOp();
+                    p.setOp(true);
+                    Bukkit.getServer().dispatchCommand(p, plC);
+                    p.setOp(wasOp);
                 }
             }
             //Bukkit.getPlayer(player).getWorld().spawnParticle(Particle.TOTEM, Bukkit.getPlayer(player).getLocation(), 300, 10);

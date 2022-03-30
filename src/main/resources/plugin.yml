@@ -12,4 +12,4 @@ permissions:
     description: allows player to add words to the database.
     default: op
 
-depend: [PlaceholderAPI]
+depend: [PlaceholderAPI, Vault]
